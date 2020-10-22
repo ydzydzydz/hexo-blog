@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前段时间老师在课间运行了个倒计时十五分钟的脚本，就自己动手实现了一下 可能方法有点蠢，但是好在能用 最后，学习使我快乐 🤪   time.shGitHub1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习使我快乐 - 倒计时脚本">
+<meta property="og:url" content="http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/index.html">
+<meta property="og:site_name" content="ZHUANGZHUANG">
+<meta property="og:description" content="前段时间老师在课间运行了个倒计时十五分钟的脚本，就自己动手实现了一下 可能方法有点蠢，但是好在能用 最后，学习使我快乐 🤪   time.shGitHub1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/time-shell/1.gif">
+<meta property="article:published_time" content="2019-11-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-22T15:25:53.350Z">
+<meta property="article:author" content="ZHUANGZHUANG">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/time-shell/1.gif">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/hexo-blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/hexo-blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/hexo-blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>学习使我快乐 - 倒计时脚本</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/hexo-blog/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/hexo-blog/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/hexo-blog/atom.xml" title="ZHUANGZHUANG" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/hexo-blog/2020/02/06/2020-02-06-network-speed/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&text=学习使我快乐 - 倒计时脚本"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&is_video=false&description=学习使我快乐 - 倒计时脚本"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=学习使我快乐 - 倒计时脚本&body=Check out this article: http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&name=学习使我快乐 - 倒计时脚本&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&t=学习使我快乐 - 倒计时脚本"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        学习使我快乐 - 倒计时脚本
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ZHUANGZHUANG</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-20T16:00:00.000Z" itemprop="datePublished">2019-11-21</time>
+        
+        (Updated: <time datetime="2020-10-22T15:25:53.350Z" itemprop="dateModified">2020-10-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/hexo-blog/categories/Shell/">Shell</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/hexo-blog/tags/Shell/" rel="tag">Shell</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>前段时间老师在课间运行了个倒计时十五分钟的脚本，就自己动手实现了一下</p>
+<p>可能方法有点蠢，但是好在能用</p>
+<p>最后，学习使我快乐 🤪</p>
+</blockquote>
+<p><img src="https://github.com/ydzydzydz/blogphoto/raw/master/time-shell/1.gif"></p>
+<figure class="highlight bash"><figcaption><span>time.sh</span><a target="_blank" rel="noopener" href="https://github.com/ydzydzydz/Shell/raw/master/shell_08.sh">GitHub</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#------------------------------------</span></span><br><span class="line"><span class="comment"># 1.倒计时</span></span><br><span class="line"><span class="comment"># 2.计时器</span></span><br><span class="line"><span class="comment"># 3.时钟</span></span><br><span class="line"><span class="comment">#------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算[时、分、秒]</span></span><br><span class="line"><span class="function"><span class="title">SetHMS</span></span> ()&#123;</span><br><span class="line">	Ling=0</span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$Miao</span>&quot;</span> -ge 3600 ];<span class="keyword">then</span> </span><br><span class="line">		<span class="built_in">let</span> Hour=$[i/3600]; <span class="built_in">let</span> Minuite=$[i/60%60]; <span class="built_in">let</span> Second=$[<span class="variable">$i</span>%60]</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">let</span> Hour=$[i/3600]; <span class="built_in">let</span> Minuite=$[i/60]; <span class="built_in">let</span> Second=$[<span class="variable">$i</span>%60]</span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$Hour</span>&quot;</span> -lt 10 ];<span class="keyword">then</span></span><br><span class="line">		Hour=<span class="variable">$Ling</span><span class="variable">$Hour</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$Minuite</span>&quot;</span> -lt 10 ];<span class="keyword">then</span></span><br><span class="line">		Minuite=<span class="variable">$Ling</span><span class="variable">$Minuite</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$Second</span>&quot;</span> -lt 10 ];<span class="keyword">then</span></span><br><span class="line">		Second=<span class="variable">$Ling</span><span class="variable">$Second</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">	Hour01=<span class="variable">$&#123;Hour:0:1&#125;</span>;Hour02=<span class="variable">$&#123;Hour:1:1&#125;</span></span><br><span class="line">	Minuite01=<span class="variable">$&#123;Minuite:0:1&#125;</span>;Minuite02=<span class="variable">$&#123;Minuite:1:1&#125;</span></span><br><span class="line">	Second01=<span class="variable">$&#123;Second:0:1&#125;</span>;Second02=<span class="variable">$&#123;Second:1:1&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义数组</span></span><br><span class="line">row1=(<span class="string">&quot;000000000&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;222222222&quot;</span> <span class="string">&quot;333333333&quot;</span> <span class="string">&quot;44     44&quot;</span> <span class="string">&quot;555555555&quot;</span> <span class="string">&quot;666666666&quot;</span> <span class="string">&quot;777777777&quot;</span> <span class="string">&quot;888888888&quot;</span> <span class="string">&quot;999999999&quot;</span> <span class="string">&quot;     &quot;</span>)</span><br><span class="line">row2=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;   111   &quot;</span> <span class="string">&quot;       22&quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;44     44&quot;</span> <span class="string">&quot;55       &quot;</span> <span class="string">&quot;66       &quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;99     99&quot;</span> <span class="string">&quot;     &quot;</span>)</span><br><span class="line">row3=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;  1111   &quot;</span> <span class="string">&quot;       22&quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;44     44&quot;</span> <span class="string">&quot;55       &quot;</span> <span class="string">&quot;66       &quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;99     99&quot;</span> <span class="string">&quot; *** &quot;</span>)</span><br><span class="line">row4=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;       22&quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;44     44&quot;</span> <span class="string">&quot;55       &quot;</span> <span class="string">&quot;66       &quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;99     99&quot;</span> <span class="string">&quot; *** &quot;</span>)</span><br><span class="line">row5=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;222222222&quot;</span> <span class="string">&quot;333333333&quot;</span> <span class="string">&quot;444444444&quot;</span> <span class="string">&quot;555555555&quot;</span> <span class="string">&quot;666666666&quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;888888888&quot;</span> <span class="string">&quot;999999999&quot;</span> <span class="string">&quot;     &quot;</span>)</span><br><span class="line">row6=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;22       &quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;       44&quot;</span> <span class="string">&quot;       55&quot;</span> <span class="string">&quot;66     66&quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;       99&quot;</span> <span class="string">&quot; *** &quot;</span>)</span><br><span class="line">row7=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;22       &quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;       44&quot;</span> <span class="string">&quot;       55&quot;</span> <span class="string">&quot;66     66&quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;       99&quot;</span> <span class="string">&quot; *** &quot;</span>)</span><br><span class="line">row8=(<span class="string">&quot;00     00&quot;</span> <span class="string">&quot;    11   &quot;</span> <span class="string">&quot;22       &quot;</span> <span class="string">&quot;       33&quot;</span> <span class="string">&quot;       44&quot;</span> <span class="string">&quot;       55&quot;</span> <span class="string">&quot;66     66&quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;88     88&quot;</span> <span class="string">&quot;       99&quot;</span> <span class="string">&quot;     &quot;</span>)</span><br><span class="line">row9=(<span class="string">&quot;000000000&quot;</span> <span class="string">&quot;111111111&quot;</span> <span class="string">&quot;222222222&quot;</span> <span class="string">&quot;333333333&quot;</span> <span class="string">&quot;       44&quot;</span> <span class="string">&quot;555555555&quot;</span> <span class="string">&quot;666666666&quot;</span> <span class="string">&quot;       77&quot;</span> <span class="string">&quot;888888888&quot;</span> <span class="string">&quot;999999999&quot;</span> <span class="string">&quot;     &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印数组</span></span><br><span class="line"><span class="function"><span class="title">BigNum</span></span> ()&#123;</span><br><span class="line">	tput cup $[Height2+0] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row1[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row1[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+1] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row2[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row2[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+2] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row3[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row3[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+3] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row4[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row4[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+4] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row5[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row5[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+5] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row6[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row6[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+6] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row7[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row7[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+7] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row8[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row8[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">	tput cup $[Height2+8] <span class="variable">$Width2</span>; <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m<span class="variable">$&#123;row9[$Hour01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[$Hour02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[$Minuite01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[$Minuite02]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[&quot;10&quot;]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[$Second01]&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;row9[$Second02]&#125;</span>\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印剩余时间</span></span><br><span class="line"><span class="function"><span class="title">SmallNum</span></span> ()&#123;</span><br><span class="line">	tput cup <span class="variable">$Height3</span> <span class="variable">$Width3</span>; <span class="built_in">echo</span> <span class="variable">$Hour</span>:<span class="variable">$Minuite</span>:<span class="variable">$Second</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印标题</span></span><br><span class="line"><span class="function"><span class="title">Tittle</span></span> ()&#123;</span><br><span class="line">	tput cup $[Height2-3] <span class="variable">$Width2</span> 2&gt; /dev/null; <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m<span class="variable">$Text</span>\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算光标位置</span></span><br><span class="line"><span class="function"><span class="title">GuangBiao</span></span> ()&#123;</span><br><span class="line">	Width=`stty size | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>`     <span class="comment"># 获取终端宽度</span></span><br><span class="line">	Width1=$[Width-71]</span><br><span class="line">	Width2=$[Width1/2]</span><br><span class="line">	Width3=$[(Width-8)/2]</span><br><span class="line">	Height=`stty size | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>`    <span class="comment"># 获取终端高度</span></span><br><span class="line">	Height1=$[Height-9]</span><br><span class="line">	Height2=$[Height1/2]</span><br><span class="line">	Height3=$[(Height-1)/2]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断终端长宽, 不同显示</span></span><br><span class="line"><span class="function"><span class="title">Display</span></span> ()&#123;</span><br><span class="line">	<span class="keyword">if</span> [ <span class="variable">$Width2</span> -lt 0 ];<span class="keyword">then</span></span><br><span class="line">	 	SmallNum</span><br><span class="line">	<span class="keyword">elif</span> [ $[Height2-3] -lt 0 ];<span class="keyword">then</span></span><br><span class="line">		SmallNum</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		BigNum</span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 倒计时</span></span><br><span class="line"><span class="function"><span class="title">PrintfDown</span></span> ()&#123;</span><br><span class="line">	<span class="keyword">for</span> ((i=<span class="variable">$Miao</span>;i&gt;=0;i--))</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		clear                                     <span class="comment"># 清屏</span></span><br><span class="line">		GuangBiao</span><br><span class="line">		<span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$i</span>&quot;</span> -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">			Text=<span class="string">&quot;倒计时结束&quot;</span>; Tittle</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			Text=<span class="string">&quot;倒计时:[<span class="variable">$Fen</span> 分钟]&quot;</span>; Tittle</span><br><span class="line">			<span class="built_in">echo</span></span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">		SetHMS</span><br><span class="line">		Display</span><br><span class="line">		sleep 1</span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计时器</span></span><br><span class="line"><span class="function"><span class="title">PrintfUp</span></span> ()&#123;</span><br><span class="line">	i=0</span><br><span class="line">	<span class="keyword">while</span> :</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		clear</span><br><span class="line">		GuangBiao</span><br><span class="line">		<span class="built_in">let</span> Miao=<span class="variable">$i</span></span><br><span class="line">		SetHMS</span><br><span class="line">		Text=<span class="string">&quot;计时:[<span class="variable">$&#123;i&#125;</span> 秒钟]&quot;</span>; Tittle</span><br><span class="line">		Display</span><br><span class="line">		sleep 1</span><br><span class="line">		<span class="built_in">let</span> i++</span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前时间</span></span><br><span class="line"><span class="function"><span class="title">PrintfNow</span></span> () &#123;</span><br><span class="line">	<span class="keyword">while</span> :</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		clear</span><br><span class="line">		GuangBiao</span><br><span class="line">		Date=`date +<span class="string">&quot;%Y-%m-%d %A&quot;</span>`</span><br><span class="line">		Hour=`date +<span class="string">&quot;%H&quot;</span>`; Minuite=`date +<span class="string">&quot;%M&quot;</span>`; Second=`date +<span class="string">&quot;%S&quot;</span>`</span><br><span class="line">		i=`<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$Hour</span>*3600+<span class="variable">$Minuite</span>*60+<span class="variable">$Second</span>&quot;</span> | bc`		</span><br><span class="line">		<span class="built_in">let</span> Miao=<span class="variable">$i</span></span><br><span class="line">		SetHMS</span><br><span class="line">		Text=<span class="string">&quot;[当前时间] <span class="variable">$Date</span>&quot;</span>; Tittle</span><br><span class="line">		Display</span><br><span class="line">		sleep 1</span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择模式</span></span><br><span class="line"><span class="function"><span class="title">SelectModule</span></span> ()&#123;</span><br><span class="line">	<span class="built_in">read</span> -p <span class="string">&quot;[1.倒计时 2.计时器 3.时钟] 选择：&quot;</span> Select</span><br><span class="line">	<span class="keyword">case</span> <span class="variable">$Select</span> <span class="keyword">in</span></span><br><span class="line">	1)</span><br><span class="line">		<span class="built_in">read</span> -p <span class="string">&quot;[？分钟倒计时]:&quot;</span> Fen            <span class="comment"># 获取变量</span></span><br><span class="line">		Miao=`<span class="built_in">echo</span> <span class="string">&quot;scale=2; <span class="variable">$Fen</span>*60&quot;</span> | bc`    <span class="comment"># 换算时间</span></span><br><span class="line">		Miao=<span class="variable">$&#123;Miao%.*&#125;</span>                        <span class="comment"># 截取整数</span></span><br><span class="line">		tput civis                             <span class="comment"># 隐藏光标</span></span><br><span class="line">		PrintfDown                             <span class="comment"># 打印输出</span></span><br><span class="line">		tput cnorm;;                           <span class="comment"># 恢复光标</span></span><br><span class="line">	2)</span><br><span class="line">		tput civis</span><br><span class="line">		PrintfUp</span><br><span class="line">		tput cnorm;;</span><br><span class="line">	3)</span><br><span class="line">		tput civis</span><br><span class="line">		PrintfNow</span><br><span class="line">		tput cnorm;;</span><br><span class="line">	*)</span><br><span class="line">		<span class="built_in">echo</span> -e <span class="string">&quot;\033[31m1.倒计时\t 2.计时器\t 3.时钟\033[0m&quot;</span></span><br><span class="line">	<span class="keyword">esac</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&quot;tput cnorm &amp;&amp; exit&quot;</span> 2                <span class="comment"># 先回复光标,在退出脚本</span></span><br><span class="line">SelectModule</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&text=学习使我快乐 - 倒计时脚本"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&is_video=false&description=学习使我快乐 - 倒计时脚本"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=学习使我快乐 - 倒计时脚本&body=Check out this article: http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&title=学习使我快乐 - 倒计时脚本"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&name=学习使我快乐 - 倒计时脚本&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://ydzydzydz.github.io/hexo-blog/2019/11/21/2019-11-21-time-shell/&t=学习使我快乐 - 倒计时脚本"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    ZHUANGZHUANG
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/hexo-blog/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/hexo-blog/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/hexo-blog/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/hexo-blog/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/hexo-blog/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/hexo-blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
