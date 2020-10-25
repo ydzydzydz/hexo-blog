@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="破解密码 开机，选择内核，按 e 键，进入编辑   添加 rd.break console&#x3D;tty0，按 Ctrl + x   修改密码 123456789switch_root:&#x2F;# mount -o remount,rw &#x2F;sysroot&#x2F;switch_root:&#x2F;# chroot &#x2F;sysroot&#x2F;sh-4.2# unset LANGsh-4.2# echo &quot;123456&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 系列破解 root 密码及常见问题">
+<meta property="og:url" content="https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/index.html">
+<meta property="og:site_name" content="ZHUANGZHUANG">
+<meta property="og:description" content="破解密码 开机，选择内核，按 e 键，进入编辑   添加 rd.break console&#x3D;tty0，按 Ctrl + x   修改密码 123456789switch_root:&#x2F;# mount -o remount,rw &#x2F;sysroot&#x2F;switch_root:&#x2F;# chroot &#x2F;sysroot&#x2F;sh-4.2# unset LANGsh-4.2# echo &quot;123456&amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/1.png">
+<meta property="og:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/2.png">
+<meta property="og:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/3.png">
+<meta property="article:published_time" content="2020-05-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-25T10:43:03.742Z">
+<meta property="article:author" content="ZHUANGZHUANG">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="SELinux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/hexo-blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/hexo-blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/hexo-blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CentOS 7 系列破解 root 密码及常见问题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/hexo-blog/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/hexo-blog/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/hexo-blog/atom.xml" title="ZHUANGZHUANG" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/hexo-blog/2020/05/13/2020-05-13-boot/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/hexo-blog/2020/04/14/2020-04-14-rename-ntfslabel/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&text=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&is_video=false&description=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS 7 系列破解 root 密码及常见问题&body=Check out this article: https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&name=CentOS 7 系列破解 root 密码及常见问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&t=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">破解密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">常见问题</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CentOS 7 系列破解 root 密码及常见问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ZHUANGZHUANG</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-12T16:00:00.000Z" itemprop="datePublished">2020-05-13</time>
+        
+        (Updated: <time datetime="2020-10-25T10:43:03.742Z" itemprop="dateModified">2020-10-25</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/hexo-blog/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/hexo-blog/tags/Linux/" rel="tag">Linux</a>, <a class="tag-link-link" href="/hexo-blog/tags/SELinux/" rel="tag">SELinux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="破解密码"><a href="#破解密码" class="headerlink" title="破解密码"></a>破解密码</h2><ol>
+<li><p>开机，选择内核，按 <kbd>e</kbd> 键，进入编辑</p>
+<p><img src="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/1.png" alt="image-20200513132237455"></p>
+</li>
+<li><p>添加 <code>rd.break</code> <code>console=tty0</code>，按 <kbd>Ctrl</kbd> + <kbd>x</kbd></p>
+<p><img src="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/2.png" alt="image-20200513132223975"></p>
+</li>
+<li><p>修改密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">switch_root:/<span class="comment"># mount -o remount,rw /sysroot/</span></span><br><span class="line">switch_root:/<span class="comment"># chroot /sysroot/</span></span><br><span class="line"></span><br><span class="line">sh-4.2<span class="comment"># unset LANG</span></span><br><span class="line">sh-4.2<span class="comment"># echo &quot;123456&quot; | passwd --stdin root</span></span><br><span class="line">sh-4.2<span class="comment"># touch /.autorelabel</span></span><br><span class="line">sh-4.2<span class="comment"># exit</span></span><br><span class="line"></span><br><span class="line">switch_root:/<span class="comment"># reboot</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li><p>重启机器报错，<code>Failed to load SELinux policy. Freezing</code>，无法正常进入系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法一：关闭 SELinux</span></span><br><span class="line">sh-4.2<span class="comment"># sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;/etc/sysconfig/selinux</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二：修复 SELinux 安全上下文</span></span><br><span class="line">sh-4.2<span class="comment"># genhomedircon</span></span><br><span class="line">sh-4.2<span class="comment"># fixfiles -f relabel</span></span><br><span class="line">sh-4.2<span class="comment"># touch /.autorelabel</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以正常重启机器，但输入正确密码后无法登陆系统</p>
+<p>临时禁用 SELinux，修改 /etc/shadow 的安全上下文</p>
+<p><img src="https://github.com/ydzydzydz/blogphoto/raw/master/centos-root/3.png" alt="image-20200513134311484"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/shadow 安全上下文丢失</span></span><br><span class="line">[root@localhost ~]<span class="comment"># ls -Z /etc/shadow</span></span><br><span class="line">----------. root root                                  /etc/shadow</span><br><span class="line"></span><br><span class="line">[root@localhost ~]<span class="comment"># chcon system_u:object_r:shadow_t:s0 /etc/shadow</span></span><br><span class="line">[root@localhost ~]<span class="comment"># ls -Z /etc/shadow</span></span><br><span class="line">----------. root root system_u:object_r:shadow_t:s0    /etc/shadow</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">破解密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">常见问题</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&text=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&is_video=false&description=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS 7 系列破解 root 密码及常见问题&body=Check out this article: https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&title=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&name=CentOS 7 系列破解 root 密码及常见问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://ydzydzydz.github.io/hexo-blog/2020/05/13/2020-05-13-centos7-root/&t=CentOS 7 系列破解 root 密码及常见问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    ZHUANGZHUANG
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/hexo-blog/">首页</a></li>
+         
+          <li><a href="/hexo-blog/archives/">归档</a></li>
+         
+          <li><a href="/hexo-blog/tags/">标签</a></li>
+         
+          <li><a href="/hexo-blog/categories/">分类</a></li>
+         
+          <li><a href="/hexo-blog/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/hexo-blog/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/hexo-blog/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/hexo-blog/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/hexo-blog/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/hexo-blog/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/hexo-blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
